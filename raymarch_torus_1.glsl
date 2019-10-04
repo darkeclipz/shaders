@@ -18,7 +18,7 @@ void main() {
     vec3 ro = vec3(0, 8, -10);
     vec3 rd = normalize(vec3(uv, 0) - ro);
     mat3 rot = rotateY(time / 4.);
-    ro *= rot;
+    ro *= rot; 
     rd *= rot;
 
     float t = 0.;
@@ -30,7 +30,7 @@ void main() {
 
     for(i=0; i < maxSteps; i++) {
         p = ro + t * rd;
-        dS = length(vec2(length(p.xz) - 0.5, p.y)) - 0.20; // Torus SDF
+        dS = length(vec2(length(p.xz) - 0.5, p.y)) - 0.225; // Torus SDF
         if(dS < eps) {
             break;
         }
