@@ -41,6 +41,13 @@ float sdTorus( in vec3 p, float r1, float r2)
     return length(vec2(length(p.xz) - r1, p.y)) - r2;
 }
 
+vec2 circleFold(vec2 z, float fixedRadius2, float minRadius2) {
+    float r2 = dot(z,z);
+    if(r2 < minRadius2)        return z * (fixedRadius2 / minRadius2);
+    else if(r2 < fixedRadius2) return z * (fixedRadius2 / r2);
+    return z;
+}
+
 // from iq
 float sdPlane(in vec3 p, in vec4 n)
 {
@@ -72,9 +79,6 @@ vec2 map( in vec3 pos )
     float id = 1.0;
     float d2 = sdWorld( pos - vec3(0,-0.7,0) );
     if( d2 < d ) id = 2.0;
-    d = min(d, d2);
-    d2 = sdSphere( pos - vec3(0.3*sin(iTime), -.375, 0.2*cos(iTime)), 0.02 );
-    if( d2 < d ) id = 3.0;
     d = min(d, d2);
     return vec2(d, id);
 }
@@ -168,7 +172,7 @@ void main() {
 
             if( tm.y < 1.5 )
             {
-                vec2 checker = trunc(fract(pos.xz)*4.);
+                vec2 checker = trunc(fract(circleFold(pos.xz,4.,0.5))*4.);
                 float cm = (mod(checker.x + checker.y, 2.0) == 0.0) ? 1. : 0.;
                 mate = vec3(0.3) * cm;
             }

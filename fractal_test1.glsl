@@ -162,7 +162,7 @@ vec2 castRay( in vec3 ro, vec3 rd )
     return vec2(t,m);
 }
 
-#define AA 1.
+#define AA 2.
  
 void main() {
     float time = iTime;
