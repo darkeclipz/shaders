@@ -12,4 +12,4 @@ Created with [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/mas
 
 ![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy10.png)
 
-Created with [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/circlefold.glsl).
+Created with [circlefold.glsl](https://github.com/darkeclipz/shaders/blob/master/circlefold.glsl).
