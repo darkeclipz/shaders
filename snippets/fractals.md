@@ -79,3 +79,35 @@ vec2 DE(vec3 z)
 	return vec2(r/abs(dr), trap);
 }
 ```
+
+## Mandelbox Variant 2
+
+![mandelbox 2](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbox_de_variant2.png)
+
+
+```glsl
+// http://blog.hvidtfeldts.net/index.php/2011/11/distance-estimated-3d-fractals-vi-the-mandelbox/
+vec2 DE(vec3 z)
+{
+    float Iterations = 8.;
+    float Scale = 3.5 + (sin(3.14*2.0*(iMouse.x/iResolution.x))*.5+.5)*2.3;
+	vec3 offset = z;
+	float dr = 1.0;
+    float trap = 1e10;
+	for (float n = 0.; n < Iterations; n++) {
+        
+        //z = mengerFold(z);
+        z = boxFold(z, vec3(1.1));       // Reflect
+        sphereFold(z, dr);    // Sphere Inversion
+        //z.xz = -z.zx;
+		z = boxFold(z, vec3(1.8));       // Reflect
+        
+		sphereFold(z, dr);    // Sphere Inversion
+        z=Scale*z + offset;  // Scale & Translate
+        dr = dr*abs(Scale)+1.0;
+        trap = min(trap, length(z));
+	}
+	float r = length(z);
+	return vec2(r/abs(dr), trap);
+}
+```
