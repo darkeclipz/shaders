@@ -2,7 +2,7 @@
 
  * [Basic Raymarcher](snippets/basic_raymarcher.md)
  * [Shapes](snippets/shapes.md)
- * [Matrices](snippets/matrices.md)
+ * [Functions & Matrices](snippets/func_mats.md)
  * [Fractals](snippets/fractals.md)
 
 # Shaders
