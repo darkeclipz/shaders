@@ -21,13 +21,18 @@ float sdBox( vec3 p, vec3 b )
   return length(max(d,0.0));
 }
 
+
+float sdSphere(vec3 p, float r) {
+	return length(p) - r;    
+} 
+
 vec2 map( in vec3 pos ) 
 {
     float id = 1.0;
-    float d = sdBox( pos - vec3(0,-0.7,0), 0.5*normalize(vec3(0.5,1,1)) ); // Box
-    float d2 = pos.y + 1.0; // Plane
-    if( d2 < d ) id = 2.0;
-    d = min(d, d2);
+    float d = sdSphere( pos - vec3(0,-0.7,0), 1. ); // Sphere
+    //float d2 = pos.y + 1.0; // Plane
+    //if( d2 < d ) id = 2.0;
+    //d = min(d, d2);
     return vec2(d, id);
 }
 
@@ -88,7 +93,7 @@ void main() {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y; 
         
         mat3 rot = rotateY(3.14*2.0*(iMouse.x/iResolution.x));
-        vec3 ro = vec3(0.0,3.8,2.8 + 3.0*(iMouse.y/iResolution.y)) * rot;
+        vec3 ro = vec3(0.0,4.8,2.8 + 3.0*(iMouse.y/iResolution.y)) * rot;
         vec3 ta = vec3(0,-3.,-2) * rot;   
 
         ro += ta;
@@ -116,7 +121,7 @@ void main() {
             vec3 mate = vec3(0.18);
 
             // Select material color.
-            if( tm.y < 1.5 )      mate = vec3(0.2);
+            if( tm.y < 1.5 )      mate = nor*.5+.5;
             else if( tm.y < 2.5 ) {
                 vec2 checker = trunc(fract(pos.xz)*4.);
                 float cm = (mod(checker.x + checker.y, 2.0) == 0.0) ? 1. : 0.;
@@ -124,14 +129,14 @@ void main() {
             };
 
             // Calculating lightning.
-            vec3 sun_dir = normalize( vec3(-0.5,0.2,-0.25) );
+            vec3 sun_dir = normalize( vec3(0.5,0.2,0.25) );
             float sun_dif = clamp( dot(nor,sun_dir),0.0,1.0);
             float sun_sha = castShadow( pos+nor*0.02, sun_dir );
             float sky_dif = clamp( 0.5 + 0.5*dot(nor,vec3(0.0,1.0,0.0)), 0.0, 1.0);
             float bou_dif = clamp( 0.5 + 0.5*dot(nor,vec3(0.0,-1.0,0.0)), 0.0, 1.0);
 
             // Applying lightning.
-            col  = mate*vec3(7.0,4.5,3.0)*sun_dif*sun_sha;
+            col  = mate*vec3(.8)*sun_dif*sun_sha;
             col += mate*vec3(0.5,0.8,0.9)*sky_dif;
             col += mate*vec3(0.7,0.3,0.2)*bou_dif;
             res += clamp(col, 0.0, 1.0);

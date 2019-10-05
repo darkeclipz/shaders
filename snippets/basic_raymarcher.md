@@ -16,6 +16,8 @@ float sdBox( vec3 p, vec3 b )
 
 ## map
 
+The function `map` combines all the signed distance fields (SDF's) and determines the object id.
+
 ```glsl
 vec2 map( in vec3 pos ) 
 {
@@ -30,6 +32,10 @@ vec2 map( in vec3 pos )
 
 ## calcNormal
 
+The function `calcNormal` calculates the normal vector on a surface for a point.
+
+![normal](https://github.com/darkeclipz/shaders/blob/master/screenshots/normal.png)
+
 ```glsl
 vec3 calcNormal( in vec3 pos ) 
 {
@@ -41,6 +47,8 @@ vec3 calcNormal( in vec3 pos )
 ```
 
 ## castShadow
+
+The function `castShadow`
 
 ```glsl
 float castShadow( in vec3 ro, vec3 rd )
