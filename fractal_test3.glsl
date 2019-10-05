@@ -86,17 +86,17 @@ vec3 mengerFold(vec3 z) {
 vec2 DE(vec3 z)
 {
     float Iterations = 8.;
-    float Scale = 4.4 + 1. + 0.4;
+    float Scale = 3.5 + (sin(3.14*2.0*(iMouse.x/iResolution.x))*.5+.5)*2.3;
 	vec3 offset = z;
 	float dr = 1.0;
     float trap = 1e10;
 	for (float n = 0.; n < Iterations; n++) {
         
-        z = mengerFold(z);
-        z = boxFold(z, vec3(2.));       // Reflect
-
-        z.xz = -z.zx;
-		z = boxFold(z, vec3(1.));       // Reflect
+        //z = mengerFold(z);
+        z = boxFold(z, vec3(1.1));       // Reflect
+        sphereFold(z, dr);    // Sphere Inversion
+        //z.xz = -z.zx;
+		z = boxFold(z, vec3(1.8));       // Reflect
         
 		sphereFold(z, dr);    // Sphere Inversion
         z=Scale*z + offset;  // Scale & Translate
@@ -146,7 +146,7 @@ vec2 castRay( in vec3 ro, vec3 rd )
 {
     float m = -1.0;
     float t = 0.0;
-    for( int i=0; i<60; i++ )
+    for( int i=0; i<100; i++ )
     {
         vec3 pos = ro + t*rd;
 
@@ -155,14 +155,14 @@ vec2 castRay( in vec3 ro, vec3 rd )
         if( h.x<0.01 )
             break;
         t += h.x;
-        if( t>100.0 )
+        if( t>20.0 )
             break;
     } 
-    if( t>100.0 ) m=-1.0;
+    if( t>20.0 ) m=-1.0;
     return vec2(t,m);
 }
 
-#define AA 1.
+#define AA 2.
  
 void main() {
     float time = 0.;
@@ -173,13 +173,13 @@ void main() {
     for(float aay=0.; aay < AA; aay++)
     {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y;
-        float an = 3.14*2.0*(iMouse.x/iResolution.x);
+        float an = 3.14*2.0*(0.15);
         
-        vec3 ta = vec3(-2.05,1.  ,-0.5);   
+        vec3 ta = vec3(1.5,1.4  ,-0.5);   
         //an = 0.8 + 0.21*(-cos(time / 16.)*0.5+0.5) - 0.1 ;
         
         vec3 rot = vec3(1.0*sin(an), 0.0, 1.0*cos(-an));
-        vec3 ro = ta + vec3(0.,0.0,-24.) * rot;
+        vec3 ro = ta + vec3(0.,0.0,-25.) * rot;
         
         vec3 ww = normalize( ta-ro );
         vec3 uu = normalize( cross(ww, vec3(0,1,0)) );
