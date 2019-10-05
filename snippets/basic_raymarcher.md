@@ -1,16 +1,44 @@
 # Basic Raymarcher
 
-## sdBox
+## castRay
 
-The function `sdBox` is used to create a box. The position of the box is `vec3 p` and the bounds (w/l/h) is `vec3 b`.
-
-![sdBox](https://github.com/darkeclipz/shaders/blob/master/screenshots/sdbox.PNG)
+![ray](https://github.com/darkeclipz/shaders/blob/master/screenshots/ray.png)
 
 ```glsl
-float sdBox( vec3 p, vec3 b )
+vec2 castRay( in vec3 ro, vec3 rd )
 {
-  vec3 d = abs(p) - b;
-  return length(max(d,0.0));
+    float m = -1.0;
+    float t = 0.0;
+    for( int i=0; i<100; i++ )
+    {
+        vec3 pos = ro + t*rd;
+
+        vec2 h = map( pos );
+        m = h.y;
+        if( h.x<MinRayDistance )
+            break;
+        t += h.x;
+        if( t>MaxRayDistance )
+            break;
+    } 
+    if( t>MaxRayDistance ) m=-1.0;
+    return vec2(t,m);
+}
+```
+
+## calcNormal
+
+The function `calcNormal` calculates the normal vector on a surface for a point.
+
+![normal](https://github.com/darkeclipz/shaders/blob/master/screenshots/normal.png)
+
+```glsl
+vec3 calcNormal( in vec3 pos ) 
+{
+    vec2 e = vec2(NormalPrecision, 0.0);
+    return normalize( vec3(map(pos+e.xyy).x-map(pos-e.xyy).x,
+                           map(pos+e.yxy).x-map(pos-e.yxy).x,
+                           map(pos+e.yyx).x-map(pos-e.yyx).x ) );
 }
 ```
 
@@ -30,19 +58,17 @@ vec2 map( in vec3 pos )
 }
 ```
 
-## calcNormal
+## sdBox
 
-The function `calcNormal` calculates the normal vector on a surface for a point.
+The function `sdBox` is used to create a box. The position of the box is `vec3 p` and the bounds (w/l/h) is `vec3 b`.
 
-![normal](https://github.com/darkeclipz/shaders/blob/master/screenshots/normal.png)
+![sdBox](https://github.com/darkeclipz/shaders/blob/master/screenshots/sdbox.PNG)
 
 ```glsl
-vec3 calcNormal( in vec3 pos ) 
+float sdBox( vec3 p, vec3 b )
 {
-    vec2 e = vec2(NormalPrecision, 0.0);
-    return normalize( vec3(map(pos+e.xyy).x-map(pos-e.xyy).x,
-                           map(pos+e.yxy).x-map(pos-e.yxy).x,
-                           map(pos+e.yyx).x-map(pos-e.yyx).x ) );
+  vec3 d = abs(p) - b;
+  return length(max(d,0.0));
 }
 ```
 
@@ -67,30 +93,6 @@ float castShadow( in vec3 ro, vec3 rd )
 
     return clamp(res,0.0,1.0);
 } 
-```
-
-## castRay
-
-```glsl
-vec2 castRay( in vec3 ro, vec3 rd )
-{
-    float m = -1.0;
-    float t = 0.0;
-    for( int i=0; i<100; i++ )
-    {
-        vec3 pos = ro + t*rd;
-
-        vec2 h = map( pos );
-        m = h.y;
-        if( h.x<MinRayDistance )
-            break;
-        t += h.x;
-        if( t>MaxRayDistance )
-            break;
-    } 
-    if( t>MaxRayDistance ) m=-1.0;
-    return vec2(t,m);
-}
 ```
 
 ## main
