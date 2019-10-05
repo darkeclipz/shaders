@@ -24,7 +24,7 @@ float sdBox( vec3 p, vec3 b )
 vec2 map( in vec3 pos ) 
 {
     float id = 1.0;
-    float d = sdBox( pos - vec3(0,-0.7,0), 0.5*normalize(vec3(1,1,1)) ); // Box
+    float d = sdBox( pos - vec3(0,-0.7,0), 0.5*normalize(vec3(0.5,1,1)) ); // Box
     float d2 = pos.y + 1.0; // Plane
     if( d2 < d ) id = 2.0;
     d = min(d, d2);
@@ -88,7 +88,7 @@ void main() {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y; 
         
         mat3 rot = rotateY(3.14*2.0*(iMouse.x/iResolution.x));
-        vec3 ro = vec3(0.0,3.8,4.0 + 3.0*(iMouse.y/iResolution.y)) * rot;
+        vec3 ro = vec3(0.0,3.8,2.8 + 3.0*(iMouse.y/iResolution.y)) * rot;
         vec3 ta = vec3(0,-3.,-2) * rot;   
 
         ro += ta;
