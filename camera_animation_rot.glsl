@@ -137,10 +137,8 @@ void main() {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y;
         
         float pause = 0.075;
-        float angle = 3.14/2. * ( smoothstep(0.0+pause, 0.25-pause, fract(iTime/12.)) +
-                            smoothstep(0.25+pause, 0.5-pause, fract(iTime/12.)) +
-                            smoothstep(0.5+pause, 0.75-pause, fract(iTime/12.)) +
-                            smoothstep(0.75+pause, 1.0-pause, fract(iTime/12.)) );
+        float angle = 3.14 * ( smoothstep(0.0+pause, 0.25-pause, fract(iTime/12.)) +
+                               smoothstep(0.5+pause, 0.75-pause, fract(iTime/12.)) ) + 3.14/2.;
                
         mat3 rot = rotateY(-angle);
 

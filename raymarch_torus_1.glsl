@@ -30,7 +30,8 @@ void main() {
 
     for(i=0; i < maxSteps; i++) {
         p = ro + t * rd;
-        dS = length(vec2(length(p.xz) - 0.5, p.y)) - 0.225; // Torus SDF
+        //dS = length(vec2(length(p.xz) - 0.5, p.y)) - 0.225; // Torus SDF
+        dS = length(p) - 0.3;
         if(dS < eps) {
             break;
         }
