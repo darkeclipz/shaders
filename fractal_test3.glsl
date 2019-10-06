@@ -9,7 +9,6 @@
 #define R iResolution.xy
 
 
-
 float smin( in float a, in float b, float k )
 {
     float h = max( k - abs(a-b), 0.0 );
@@ -92,9 +91,10 @@ vec2 DE(vec3 z)
     float trap = 1e10;
 	for (float n = 0.; n < Iterations; n++) {
         
-        //z = mengerFold(z);
-        z = boxFold(z, vec3(1.1));       // Reflect
         sphereFold(z, dr);    // Sphere Inversion
+        //z = mengerFold(z);
+        z = boxFold(z, vec3(0.9));       // Reflect
+        
         //z.xz = -z.zx;
 		z = boxFold(z, vec3(1.8));       // Reflect
         
@@ -162,7 +162,7 @@ vec2 castRay( in vec3 ro, vec3 rd )
     return vec2(t,m);
 }
 
-#define AA 2.
+#define AA 1.
  
 void main() {
     float time = 0.;
