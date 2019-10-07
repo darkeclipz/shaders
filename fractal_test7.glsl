@@ -23,10 +23,10 @@ mat3 rotateZ(float angle) {
     return mat3(c,-s,0,s,c,0,0,0,1);
 }
 
-// // https://github.com/HackerPoet/MarbleMarcher/blob/master/assets/frag.glsl
-// vec3 boxFold(vec3 z, vec3 r) {
-// 	return clamp(z.xyz, -r, r) * 2.0 - z.xyz;
-// }
+// https://github.com/HackerPoet/MarbleMarcher/blob/master/assets/frag.glsl
+vec3 boxFold(vec3 z, vec3 r) {
+	return clamp(z.xyz, -r, r) * 2.0 - z.xyz;
+}
 
 // http://www.fractalforums.com/fragmentarium/fragmentarium-an-ide-for-exploring-3d-fractals-and-other-systems-on-the-gpu/15/
 void sphereFold(inout vec3 z, inout float dz) {
@@ -46,19 +46,19 @@ void sphereFold(inout vec3 z, inout float dz) {
 	}
 }
 
-// // https://github.com/HackerPoet/MarbleMarcher/blob/master/assets/frag.glsl
-// vec3 mengerFold(vec3 z) {
-// 	float a = min(z.x - z.y, 0.0);
-// 	z.x -= a;
-// 	z.y += a;
-// 	a = min(z.x - z.z, 0.0);
-// 	z.x -= a;
-// 	z.z += a;
-// 	a = min(z.y - z.z, 0.0);
-// 	z.y -= a;
-// 	z.z += a;
-//     return z;
-// }
+// https://github.com/HackerPoet/MarbleMarcher/blob/master/assets/frag.glsl
+vec3 mengerFold(vec3 z) {
+	float a = min(z.x - z.y, 0.0);
+	z.x -= a;
+	z.y += a;
+	a = min(z.x - z.z, 0.0);
+	z.x -= a;
+	z.z += a;
+	a = min(z.y - z.z, 0.0);
+	z.y -= a;
+	z.z += a;
+    return z;
+}
 
 // vec2 getOffset(float time) 
 // {
@@ -88,7 +88,7 @@ void sphereFold(inout vec3 z, inout float dz) {
 vec2 DE(vec3 z, float time)
 {
     //float angl = sin(time) * 0.3;//(iMouse.x/iResolution.y);//cos(time) * .2 + .6;
-    float angl = (iMouse.x/iResolution.x) * 4. - 2.;
+    float angl = (0.5*sin(time)+0.5) * 4. - 2.;
     mat3 rx = rotateX(angl);
     mat3 ry = rotateY(angl);
     mat3 rz = rotateZ(angl);
@@ -99,13 +99,19 @@ vec2 DE(vec3 z, float time)
     float Offset = .6;
     float n = 0.;
     float trap = 10.;
+    float dr = 1.;
     while (n < 60.) {
        z = abs(z);
        if(z.x - z.y < 0.) z.xy = z.yx;
        if(z.x - z.z < 0.) z.xz = z.zx;
        if(z.y - z.z < 0.) z.yz = z.zy;
+
+       z = boxFold(z, vec3(1));
+       z = mengerFold(z);
        z *= rot;
        z = abs(z);
+       
+       dr = dr*abs(Scale)+1.0;
        z = z*Scale - vec3(vec3(Offset*(Scale-1.0)).xy, 0);
        trap = min(trap, length(z));
        n++;
@@ -158,17 +164,17 @@ vec2 castRay( in vec3 ro, vec3 rd, float time )
         if( h.x<0.00095 )
             break;
         t += h.x;
-        if( t>20.0 )
+        if( t>40.0 )
             break;
     } 
-    if( t>20.0 ) m=-1.0;
+    if( t>40.0 ) m=-1.0;
     return vec2(t,m);
 }
  
 void main() {
 
     float time = iTime;
-    time /= 22.;
+    time /= 60.;
 
     vec3 col = vec3(0);
     vec3 res = vec3(0);
@@ -178,10 +184,10 @@ void main() {
     {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y;
         
-        mat3 rot =    rotateY(sin(time)) 
-                    * rotateZ(sin(time));
+        mat3 rot =    rotateY(sin(time)*0.5) 
+                    * rotateZ(sin(time)*0.5);
         vec3 ta = vec3(0,0,1)*rot;
-        vec3 ro = vec3(0,0,-1.2)*rot;
+        vec3 ro = vec3(0,0,-12.2)*rot;
         
         vec3 ww = normalize( ta-ro );
         vec3 uu = normalize( cross(ww, vec3(0,1,0)) );
@@ -205,13 +211,13 @@ void main() {
             mat3 sunRot = rotateY(1.9);
             vec3 sun_dir = normalize( vec3(-5,0.05,-2) * sunRot );
             float sun_dif = clamp( dot(nor,sun_dir),0.0,1.0); 
-            float sun_sha = 0.75*castShadow( pos+nor*0.001, sun_dir, time );
+            float sun_sha =castShadow( pos+nor*0.001, sun_dir, time );
             float sky_dif = clamp( 0.5 + 0.5*dot(nor,vec3(0.0,1.0,0.0)), 0.0, 1.0);
             float bou_dif = clamp( 0.5 + 0.5*dot(nor,vec3(0.0,-1.0,0.0)), 0.0, 1.0);
 
             col  = 0.25*mate*vec3(5.0,4.5,4.0)*sun_dif*sun_sha;
             //col += mate*vec3(0.5,0.6,0.6)*sky_dif;
-            col += 0.2*mate*vec3(0.5,0.6,0.6)*bou_dif;
+            col += 0.2*mate*vec3(1.5,0.6,0.6)*bou_dif;
         }
 
         res += clamp(col, 0.0, 1.0);
