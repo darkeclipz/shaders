@@ -2,7 +2,11 @@
 
 ## castRay
 
+Let _ro_ be the **ray origin**, and _rd_ be the **ray direction**. We start with taking _t_ steps (at 0.00) into the ray direction (into the scene). 
+
 ![ray](https://github.com/darkeclipz/shaders/blob/master/screenshots/ray.png)
+
+Then we advance _t_ with the distance to the closest object, which is determined from the `map` function. Once the distance to the closest object is less than, e.g. 0.001, we have hit the object.
 
 ```glsl
 vec2 castRay( in vec3 ro, vec3 rd )
@@ -28,9 +32,11 @@ vec2 castRay( in vec3 ro, vec3 rd )
 
 ## calcNormal
 
-The function `calcNormal` calculates the normal vector on a surface for a point.
+The function `calcNormal` calculates the normal vector on a surface for a point. The normal is used for a lot of lightning calculations.
 
 ![normal](https://github.com/darkeclipz/shaders/blob/master/screenshots/normal.png)
+
+The normal vector represents the vector that is normal to the surface, e.g. perpendicular/orthogonal.
 
 ```glsl
 vec3 calcNormal( in vec3 pos ) 
@@ -44,7 +50,7 @@ vec3 calcNormal( in vec3 pos )
 
 ## map
 
-The function `map` combines all the signed distance fields (SDF's) and determines the object id.
+The function `map` combines all the signed distance fields (SDF's) and determines the object id. Multiple distance fields, such as for primitive shapes (or fractals), can be combined with `min(sdf1, sdf2)`. In essence, the scene is put together in this functions.
 
 ```glsl
 vec2 map( in vec3 pos ) 
@@ -60,7 +66,7 @@ vec2 map( in vec3 pos )
 
 ## sdBox
 
-The function `sdBox` is used to create a box. The position of the box is `vec3 p` and the bounds (w/l/h) is `vec3 b`.
+The function `sdBox` is used to create a box. The position of the box is `vec3 p` and the bounds (w/l/h) is `vec3 b`. Iniqo Quilez has a list of [distance field functions for primitives](https://iquilezles.org/www/articles/distfunctions/distfunctions.htm).
 
 ![sdBox](https://github.com/darkeclipz/shaders/blob/master/screenshots/sdbox.PNG)
 
@@ -74,7 +80,7 @@ float sdBox( vec3 p, vec3 b )
 
 ## castShadow
 
-The function `castShadow`
+The function `castShadow` uses the same raymarching technique as the `castRay` function. Instead of from the camera, we now shoot a ray from our found point in the scene, into the direction of the sun (light source). If this ray hits something an object in the scene, we know that there is an object in the way between the light source and the point on the surface. Because we can also track how close we got to the closest object, we use this distance to create soft shadows.
 
 ```glsl
 float castShadow( in vec3 ro, vec3 rd )
@@ -96,6 +102,19 @@ float castShadow( in vec3 ro, vec3 rd )
 ```
 
 ## main
+
+In the `main` function everything comes together. To render an image we take the following steps:
+
+ * Aliasing loop, supersampling the scene.
+ * Get pixel coordinates `uv`.
+ * Set up of the camera.
+ * Determine the ray.
+ * Determine the sky color (if we miss).
+ * Cast a ray into the scene.
+ * Determine if it was a hit.
+ * Select the proper material id.
+ * Calculate and apply the lightning.
+ * Gamma correction.
 
 ```glsl
 #define AA 3.
@@ -164,6 +183,7 @@ void main() {
 
 # Full Code
 
+The complete ray marcher is in the code below.
 
 ```glsl
 #define O gl_FragColor

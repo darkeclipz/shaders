@@ -68,6 +68,8 @@ vec2 sdTemple( in vec3 p )
     // 4 fold symmetry
     vec3 ps = vec3(abs(p.xz), p.y).xzy;
 
+    //ps = p;
+
     // floor
     float d = sdBox( ps - vec3(1,-1,1), vec3(1, 0.02, 1) );
     float id = 2.;
