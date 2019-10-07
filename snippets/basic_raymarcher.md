@@ -50,7 +50,7 @@ vec3 calcNormal( in vec3 pos )
 
 ## map
 
-The function `map` combines all the signed distance fields (SDF's) and determines the object id. Multiple distance fields, such as for primitive shapes (or fractals), can be combined with `min(sdf1, sdf2)`. In essence, the scene is put together in this functions.
+The function `map` combines all the signed distance fields (SDF's) and determines the object id. Multiple distance fields, such as for primitive shapes (or fractals), can be combined with `min(sdf1, sdf2)`. In essence, the scene is put together in the `map` function.
 
 ```glsl
 vec2 map( in vec3 pos ) 
@@ -80,7 +80,7 @@ float sdBox( vec3 p, vec3 b )
 
 ## castShadow
 
-The function `castShadow` uses the same raymarching technique as the `castRay` function. Instead of from the camera, we now shoot a ray from our found point in the scene, into the direction of the sun (light source). If this ray hits something an object in the scene, we know that there is an object in the way between the light source and the point on the surface. Because we can also track how close we got to the closest object, we use this distance to create soft shadows.
+The function `castShadow` uses the same raymarching technique as the `castRay` function. Instead of from the camera, we now shoot a ray from our found point in the scene, into the direction of the sun (light source). If this ray hits something, an object in the scene, we know that there is an object in the way between the light source and the point on the surface. Because we can also track how close we got to the closest object, we use this distance to create soft shadows.
 
 ```glsl
 float castShadow( in vec3 ro, vec3 rd )
@@ -183,7 +183,7 @@ void main() {
 
 # Full Code
 
-The complete ray marcher is in the code below.
+The complete raymarcher is in the code below.
 
 ```glsl
 #define O gl_FragColor

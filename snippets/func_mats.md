@@ -20,6 +20,15 @@ float smax( in float a, in float b, float k )
 }
 ```
 
+## X-Axis Rotation Matrix
+
+```glsl
+mat3 rotateZ(float angle) {
+	float c = cos(angle), s = sin(angle);
+    return mat3(c,-s,0,s,c,0,0,0,1);
+}
+```
+
 ## Y-Axis Rotation matrix
 
 ```glsl
