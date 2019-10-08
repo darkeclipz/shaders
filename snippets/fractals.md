@@ -111,3 +111,36 @@ vec2 DE(vec3 z)
 	return vec2(r/abs(dr), trap);
 }
 ```
+
+## Kleinian 
+
+![Kleinian 1](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy24.png)
+
+![Kleinian 2](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy25.png)
+
+```glsl
+vec2 DE(vec3 p, float s)
+{
+	float scale = 1.0;
+    vec4 orb;
+
+    s = 1.525 - 0.44 + iMouse.x/iResolution.x - 0.5;
+
+	orb = vec4(1000.0); 
+	
+	for( int i=0; i<8;i++ )
+	{
+		p = -1.0 + 2.0*fract(0.5*p+0.5);
+
+		float r2 = dot(p,p);
+		
+        orb = min( orb, vec4(abs(p),r2) );
+		
+		float k = s/r2;
+		p     *= k;
+		scale *= k;
+	}
+	
+	return vec2(0.25*abs(p.y)/scale, orb.w);
+}
+```

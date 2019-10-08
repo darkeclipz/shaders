@@ -1,10 +1,8 @@
 ﻿# Snippets
 
  * [Basic Raymarcher](snippets/basic_raymarcher.md)
- * [Shapes](snippets/shapes.md)
- * [Functions & Matrices](snippets/func_mats.md)
- * [Fractals](snippets/fractals.md)
  * [Path tracer](snippets/path_tracer.md)
+ * [Fractals](snippets/fractals.md)
 
 # Renders
 
