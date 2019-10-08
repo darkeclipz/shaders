@@ -12,9 +12,9 @@ Shaders have been coded in Visual Studio Code with the Shadertoy (GLSL Preview) 
 
 ## fractal_test1.glsl
 
-![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy9.png)
+![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/pathtracer3.png)
 
-Created with [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/fractal_test1.glsl).
+Created with [Fractal Box 2](https://www.shadertoy.com/view/tdGGzK) which renders [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/fractal_test1.glsl).
 
 ## circlefold.glsl
 
@@ -38,7 +38,7 @@ Created with [kleinian2.glsl](https://github.com/darkeclipz/shaders/blob/master/
 
 ## Fractal Box (fractal_test1)
 
-![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/pathtracer3.png)
 
-Created with [Fractal Box 2](https://www.shadertoy.com/view/tdGGzK).
+
+
 
