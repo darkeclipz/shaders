@@ -27,10 +27,3 @@ Created with [circlefold.glsl](https://github.com/darkeclipz/shaders/blob/master
 ![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy24.png)
 
 Created with [kleinian.glsl](https://github.com/darkeclipz/shaders/blob/master/kleinian.glsl).
-
-## kleinian2.glsl
-
-![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy25.png)
-
-Created with [kleinian2.glsl](https://github.com/darkeclipz/shaders/blob/master/kleinian2.glsl).
-
