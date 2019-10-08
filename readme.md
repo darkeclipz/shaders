@@ -32,3 +32,7 @@ Created with [kleinian.glsl](https://github.com/darkeclipz/shaders/blob/master/k
 
 Created with [Mandelbulb Path Traced](https://www.shadertoy.com/view/wdyGRV) which renders [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/mandelbulb.glsl).
 
+## More
+
+[View all the screenshots here.](snippets/screenshots.md)
+
