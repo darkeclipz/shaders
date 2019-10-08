@@ -147,7 +147,7 @@ vec2 DE(vec3 p, float s)
 
 ## Mandelbulb
 
-![Mandelbulb](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbulb.png)
+![Mandelbulb](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbulb1.png)
 
 ```glsl
 vec2 DE(vec3 pos, float time) {
