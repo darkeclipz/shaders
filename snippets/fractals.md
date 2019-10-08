@@ -1,5 +1,37 @@
 # Fractals
 
+## Iterated Function System (IFS) Fractal
+
+![mandelbox](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy26.png)
+
+```glsl
+vec2 DE(vec3 z, float time)
+{
+    float angl = (iMouse.x/iResolution.x) * 4. - 2.;
+    mat3 rx = rotateX(angl);
+    mat3 ry = rotateY(angl);
+    mat3 rz = rotateZ(angl);
+    mat3 rot = rx * ry * rz;
+ 
+    float Scale = (iMouse.y/iResolution.y) * 4. - 2.;
+    float Offset = .6;
+    float n = 0.;
+    float trap = 10.;
+    while (n < 60.) {
+       z = abs(z);
+       if(z.x - z.y < 0.) z.xy = z.yx;
+       if(z.x - z.z < 0.) z.xz = z.zx;
+       if(z.y - z.z < 0.) z.yz = z.zy;
+       z *= rot;
+       z = abs(z);
+       z = z*Scale - vec3(vec3(Offset*(Scale-1.0)).xy, 0);
+       trap = min(trap, length(z));
+       n++;
+    }
+    return vec2((length(z) ) * pow(Scale, -float(n)), trap);
+}
+```
+
 ## boxFold
 
 ```glsl
