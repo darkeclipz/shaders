@@ -159,7 +159,7 @@ void main() {
             float ao = pow( clamp(tm.y*2.0,0.0,1.0), 1.2 );
 
             vec3 mate = cos(vec3(0,2,4) + 4.*tm.y + 4.*iMouse.x/iMouse.y); 
-            mate = 0.5 + 0.5 * cos(2.0 * 3.1415 * tm.y + vec3(0.0, 1.0, 2.0) + 4.*iMouse.x/iMouse.y);
+            mate = 0.5 + 0.5 * cos(2.0 * 3.1415 * 2.0 * tm.y + vec3(0.0, 1.0, 2.0) + 4.*iMouse.x/iMouse.y);
 
             vec3 brdf  = 1.0*vec3(0.40,0.40,0.40)*amb*ao;
             brdf += 1.0*vec3(1.00,1.00,1.00)*key*ao;
