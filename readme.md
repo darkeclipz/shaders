@@ -6,7 +6,7 @@
  * [Fractals](snippets/fractals.md)
  * [Path tracer](snippets/path_tracer.md)
 
-# Raymarching
+# Renders
 
 Shaders have been coded in Visual Studio Code with the Shadertoy (GLSL Preview) extension.
 
@@ -33,12 +33,4 @@ Created with [kleinian.glsl](https://github.com/darkeclipz/shaders/blob/master/k
 ![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy25.png)
 
 Created with [kleinian2.glsl](https://github.com/darkeclipz/shaders/blob/master/kleinian2.glsl).
-
-# Path tracing
-
-## Fractal Box (fractal_test1)
-
-
-
-
 
