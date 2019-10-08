@@ -5,7 +5,7 @@
 #define O gl_FragColor
 #define U gl_FragCoord.xy
 #define iGlobalTime iTime
-#define AA 2.
+#define AA 1.
 #define R iResolution.xy
 
 mat3 rotateX(float angle) {
@@ -23,29 +23,30 @@ mat3 rotateZ(float angle) {
     return mat3(c,-s,0,s,c,0,0,0,1);
 }
 
+const vec4 param_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
+const vec4 param_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
 vec2 DE(vec3 p, float s)
 {
-	float scale = 1.0;
-    vec4 orb;
-
-    s = 1.525 - 0.44 + iMouse.x/iResolution.x - 0.5;
-
-	orb = vec4(1000.0); 
-	
-	for( int i=0; i<8;i++ )
+    float k1, k2, rp2, rq2;
+    float scale = 1.0;
+    float orb = 1e4;
+    vec3 q = p;
+    for (int i = 0; i < 10; i++)
 	{
-		p = -1.0 + 2.0*fract(0.5*p+0.5);
-
-		float r2 = dot(p,p);
-		
-        orb = min( orb, vec4(abs(p),r2) );
-		
-		float k = s/r2;
-		p     *= k;
-		scale *= k;
+        p = 2.0 * clamp(p, param_min.xyz, param_max.xyz) - p;
+	    q = 2.0 * fract(0.5 * q + 0.5) - 1.0;
+	    rp2 = dot(p, p);
+        rq2 = dot(q, q);
+	    k1 = max(param_min.w / rp2, 1.0);
+        k2 = max(param_min.w / rq2, 1.0);
+	    p *= k1;
+        q *= k2;
+	    scale *= k1;
+        orb = min(orb, rq2);
 	}
-	
-	return vec2(0.25*abs(p.y)/scale, orb.w);
+    float lxy = length(p.xy);
+    return vec2(0.5 * max(param_max.w - lxy, lxy * p.z / length(p)) / scale,
+                0.25 + sqrt(orb));
 }
 
 
@@ -122,11 +123,11 @@ void main() {
     {
         vec2 p = (2.*(U + vec2(aax, aay) / AA)-R)/R.y;
         
-        mat3 rot = rotateY(6.14*cos(time)) * rotateZ(cos(time)) ;
+        mat3 rot = rotateY(time) * rotateZ(13.*time) ;
 
-        vec3 ta = vec3(cos(time),0,0);
+        vec3 ta = vec3(1.5,0.1,-5.4);
         float lj = 2.2;
-        vec3 ro = vec3(lj * cos(5.*time),0.5,-0.2 + lj * sin(3.*time));
+        vec3 ro = vec3(0.5,0.5,1) + ta;
         
         vec3 ww = normalize( ta-ro );
         vec3 uu = normalize( cross(ww, vec3(0,1,0)) );
@@ -144,20 +145,21 @@ void main() {
             vec3 pos = ro + t*rd;
             vec3 nor = calcNormal(pos, time);
 
-            vec3 mate = vec3(tm.y); 
+            
 
-            mate = color(5.*tm.y);
-
-
+            //mate = vec3(0.7);
 
 
-            vec3  light1 = vec3( ro );
-            vec3  light2 = vec3( ro );
+            vec3  light1 = vec3( vec3(0.5) );
+            vec3  light2 = vec3( vec3(1,0.75,-.15) );
 
             float key = clamp( dot( light1, nor ), 0.0, 1.0 );
             float bac = clamp( 0.2 + 0.8*dot( light2, nor ), 0.0, 1.0 );
             float amb = (0.7+0.3*nor.y);
             float ao = pow( clamp(tm.y*2.0,0.0,1.0), 1.2 );
+
+            vec3 mate = cos(vec3(0,2,4) + 4.*tm.y + 4.*iMouse.x/iMouse.y); 
+            mate = 0.5 + 0.5 * cos(2.0 * 3.1415 * tm.y + vec3(0.0, 1.0, 2.0) + 4.*iMouse.x/iMouse.y);
 
             vec3 brdf  = 1.0*vec3(0.40,0.40,0.40)*amb*ao;
             brdf += 1.0*vec3(1.00,1.00,1.00)*key*ao;
