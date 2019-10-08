@@ -144,3 +144,47 @@ vec2 DE(vec3 p, float s)
 	return vec2(0.25*abs(p.y)/scale, orb.w);
 }
 ```
+
+## Mandelbulb
+
+![Mandelbulb](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbulb.png)
+
+```glsl
+vec2 DE(vec3 pos, float time) {
+        
+    pos *= rotateX(3.14/2.) * rotateZ(time);
+
+    float Iterations = 60.;
+    float Bailout = 2.;
+    float Power = 12.;
+    
+    vec3 trap = vec3(0,0,0);
+    float minTrap = 1e10;
+    
+	vec3 z = pos;
+	float dr = 1.0;
+	float r = 0.0;
+	for (float i = 0.; i < Iterations ; i++) {
+		r = length(z);
+		if (r>Bailout) break;
+        
+        minTrap = min(minTrap, z.z);
+		
+		// convert to polar coordinates
+		float theta = acos(z.z/r);
+		float phi = atan(z.y,z.x);
+		dr =  pow( r, Power-1.0)*Power*dr + 1.0;
+		
+		// scale and rotate the point
+		float zr = pow( r,Power);
+		theta = theta*Power;
+		phi = phi*Power;
+		
+		// convert back to cartesian coordinates
+		//z = zr*vec3(sin(theta)*cos(phi), sin(phi)*sin(theta), cos(theta));
+        z = zr*vec3( cos(theta)*cos(phi), cos(theta)*sin(phi), sin(theta) );
+		z+=pos;
+	}
+	return vec2(0.5*log(r)*r/dr, minTrap);
+}
+```
