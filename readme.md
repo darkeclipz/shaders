@@ -25,3 +25,10 @@ Created with [circlefold.glsl](https://github.com/darkeclipz/shaders/blob/master
 ![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy24.png)
 
 Created with [kleinian.glsl](https://github.com/darkeclipz/shaders/blob/master/kleinian.glsl).
+
+## mandelbulb.glsl
+
+![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbulb2.png)
+
+Created with [Mandelbulb Path Traced](https://www.shadertoy.com/view/wdyGRV) which renders [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/mandelbulb.glsl).
+
