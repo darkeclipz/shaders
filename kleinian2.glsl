@@ -23,7 +23,7 @@ mat3 rotateZ(float angle) {
     return mat3(c,-s,0,s,c,0,0,0,1);
 }
 
-const vec4 param_min = vec4(-0.8323, -0.694, -0.5045, 0.8067);
+const vec4 param_min = vec4(-0.8323, -0.694, -0.045, 0.8067);
 const vec4 param_max = vec4(0.8579, 1.0883, 0.8937, 0.9411);
 vec2 DE(vec3 p, float s)
 {
@@ -68,7 +68,7 @@ float castShadow( in vec3 ro, vec3 rd, float time )
 {
     float res = 1.0;
     float t = 0.00;
-    for( int i=0; i< 200; i++ )
+    for( int i=0; i< 75; i++ )
     {
         vec3 pos = ro + t*rd;
         float h = map( pos, time ).x;
@@ -85,9 +85,9 @@ vec2 castRay( in vec3 ro, vec3 rd, float time )
 {
     float m = -1.0;
     float t = 0.01;
-    for( int i=0; i<200; i++ )
+    for( int i=0; i<100; i++ )
     {
-        float precis = 0.0001 * t;
+        float precis = 0.001 * t;
         vec3 pos = ro + t*rd;
 
         vec2 h = map( pos, time );

@@ -282,7 +282,7 @@ void main() {
         res += clamp(col, 0.0, 1.0);
     }
 
-    col = pow( res/(AA*AA), vec3(0.4545) );
+    col = 2.*pow( res/(AA*AA), vec3(0.4545) );
     
     O = vec4(col, 1.0);
 }
