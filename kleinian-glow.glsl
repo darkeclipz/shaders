@@ -28,7 +28,7 @@ vec2 DE(vec3 p, float s)
 	float scale = 1.0;
     vec4 orb;
 
-    s = 1.525 - 0.44 + iMouse.x/iResolution.x - 0.5;
+    s = 1.525 - 0.44 + 0.17 - 0.5;
 
 	orb = vec4(1000.0); 
 	
@@ -45,7 +45,7 @@ vec2 DE(vec3 p, float s)
 		scale *= k;
 	}
 	
-	return vec2(0.25*abs(p.y)/scale, orb.w);
+	return vec2(0.25*abs(p.y)/scale, orb.y);
 }
 
 
@@ -103,16 +103,16 @@ vec2 castRay( in vec3 ro, vec3 rd, float time )
 
 vec3 color(float t) 
 {
-    vec3 color1 = vec3(50) / 255.;
-    vec3 color2 = vec3(210) / 255.;
-    return mix(color1, color2, smoothstep(0.0, 0.75, abs(t-0.5)));
+    return cos(vec3(0,1,1.5) + t + 3.9);
 }
 
 void main() {
 
     float time = iTime;
 
-    time /= 20.;
+    //time /= 20.;
+
+    time = 12.02;
 
     vec3 col = vec3(0);
     vec3 res = vec3(0);
@@ -124,8 +124,8 @@ void main() {
         
         mat3 rot = rotateY(6.14*cos(time)) * rotateZ(cos(time)) ;
 
-        vec3 ta = vec3(cos(time),0,0);
-        float lj = 2.2;
+        vec3 ta = vec3(0.5,.1,0);
+        float lj = 3.2;
         vec3 ro = vec3(lj * cos(5.*time),0.5,-0.2 + lj * sin(3.*time));
         
         vec3 ww = normalize( ta-ro );
@@ -144,12 +144,7 @@ void main() {
             vec3 pos = ro + t*rd;
             vec3 nor = calcNormal(pos, time);
 
-            vec3 mate = vec3(tm.y); 
-
-            mate = color(5.*tm.y);
-
-
-
+            vec3 mate = color(8.*tm.y); 
 
             vec3  light1 = vec3( ro );
             vec3  light2 = vec3( ro );
@@ -158,12 +153,14 @@ void main() {
             float bac = clamp( 0.2 + 0.8*dot( light2, nor ), 0.0, 1.0 );
             float amb = (0.7+0.3*nor.y);
             float ao = pow( clamp(tm.y*2.0,0.0,1.0), 1.2 );
+            float glow = pow( clamp(tm.y*3.0,0.0,1.0), 1.2 );
 
             vec3 brdf  = 1.0*vec3(0.40,0.40,0.40)*amb*ao;
             brdf += 1.0*vec3(1.00,1.00,1.00)*key*ao;
             brdf += 1.0*vec3(0.40,0.40,0.40)*bac*ao;
+            brdf += 16.0*vec3(0,1,0)*glow;
 
-            col = mate * brdf * exp(-0.2*t);
+            col = mate * brdf * exp(-0.4*t);
         }
 
         res += clamp(col, 0.0, 1.0);
@@ -173,3 +170,4 @@ void main() {
     
     O = vec4(col, 1.0);
 }
+

@@ -30,7 +30,14 @@ Created with [kleinian.glsl](https://github.com/darkeclipz/shaders/blob/master/k
 
 ![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/mandelbulb2.png)
 
-Created with [Mandelbulb Path Traced](https://www.shadertoy.com/view/wdyGRV) which renders [fractal_test1.glsl](https://github.com/darkeclipz/shaders/blob/master/mandelbulb.glsl).
+Created with [Mandelbulb Path Traced](https://www.shadertoy.com/view/wdyGRV) which renders [mandelbulb.glsl](https://github.com/darkeclipz/shaders/blob/master/mandelbulb.glsl).
+
+## kleinian-glow.glsl
+
+
+![img](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy28.png)
+
+Created with [Kleinian glow test](https://www.shadertoy.com/view/3sVGRc) which renders [kleinian-glow.glsl](https://github.com/darkeclipz/shaders/blob/master/kleinian-glow.glsl).
 
 ## More
 

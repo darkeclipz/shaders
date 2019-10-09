@@ -4,11 +4,11 @@
 #define iGlobalTime iTime 
 #define R iResolution.xy 
 
-void main() 
+void main()  
 {
-	vec2 uv = U.xy / R.xy;  
+	vec2 uv = U.xy / R.xy;   
 
-    vec3 col = vec3(0.0);
+    vec3 col = vec3(0.0); 
     
     if( iFrame>0 )
     {
@@ -18,10 +18,10 @@ void main()
         //col = vec3(1,0,0);
     }
     
-    // color grading and vigneting
+    // color grading and vigneting 
     col = pow( col, vec3(0.8,0.85,0.9) );
     
     col *= 0.5 + 0.5*pow( 16.0*uv.x*uv.y*(1.0-uv.x)*(1.0-uv.y), 0.1 );
     
     O = vec4( col, 1.0 );
-}
+}  

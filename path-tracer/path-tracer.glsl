@@ -168,7 +168,7 @@ vec2 map( vec3 p )
 
 vec3 calcNormal( in vec3 pos )
 {
-    vec3 eps = vec3(0.0001,0.0,0.0);
+    vec3 eps = vec3(0.00005,0.0,0.0);
 
     return normalize( vec3(
       map( pos+eps.xyy ).x - map( pos-eps.xyy ).x,
@@ -186,7 +186,7 @@ vec2 intersect( in vec3 ro, in vec3 rd )
     for(int i=0; i<80; i++ )
     {
         vec2 h = map(ro+rd*t);
-        if( h.x<0.0001 || t>tmax ) break;
+        if( h.x<0.00001 || t>tmax ) break;
         t +=  h.x;
         orbit = h.y;
     }
@@ -200,7 +200,7 @@ float shadow( in vec3 ro, in vec3 rd )
 {
     float res = 0.0;
     
-    float tmax = 12.0;
+    float tmax = 20.0;
     
     float t = 0.001;
     for(int i=0; i<80; i++ )
@@ -238,7 +238,7 @@ vec3 calculateColor(vec3 ro, vec3 rd, float sa )
         float t = tm.x;
         if( t < 0.0 )
         {
-            if( bounce==0 ) return mix( 0.05*vec3(0.9,1.0,1.0), skyCol, smoothstep(0.1,0.25,rd.y) );
+            if( bounce==0 ) return vec3(1);
             break;
         }
 
@@ -247,7 +247,7 @@ vec3 calculateColor(vec3 ro, vec3 rd, float sa )
         vec3 pos = ro + rd * t;
         vec3 nor = calcNormal( pos );
 
-        vec3 mate = cos(vec3(0,1,1.5) + 2.*tm.y + 21.) *.5 + .5;
+        vec3 mate = cos(vec3(0,2,4) + 2.*tm.y + 5.) *.5 + .5;
         vec3 surfaceColor = mate;//vec3(0.4)*vec3(1,0,0);
 
         //-----------------------
