@@ -1,5 +1,29 @@
 # Fractals
 
+## Sierpinski
+
+![sierpinski](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy29.png)
+
+```glsl
+float DE(vec3 z)
+{
+    vec3 orig = vec3(z);
+    float Iterations = 14.;
+    float Scale = 2.;
+    float Offset = 1.;
+    float n = 0.;
+    while (n < Iterations) {
+       if(z.x+z.y<0.) z.xy = -z.yx; // fold 1
+       if(z.x+z.z<0.) z.xz = -z.zx; // fold 2
+       if(z.y+z.z<0.) z.zy = -z.yz; // fold 3     
+       z = z*Scale - Offset*(Scale-1.0);
+       n++;
+    }
+    float yPlane = length(vec3(0,-.01,0) - orig);
+    return min(yPlane, (length(z) ) * pow(Scale, -float(n)));
+}
+```
+
 ## Iterated Function System (IFS) Fractal
 
 ![mandelbox](https://github.com/darkeclipz/shaders/blob/master/screenshots/shadertoy26.png)
